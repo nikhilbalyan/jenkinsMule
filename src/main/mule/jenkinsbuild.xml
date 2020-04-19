@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="86c02fab-2b77-4677-9cc1-ff22d3638453" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="jenkinsbuildFlow" doc:id="19a93645-a61f-4e13-a075-25b4e086a771" >
+		<http:listener doc:name="Listener" doc:id="0ea1e950-5290-48d8-a172-d672c15d699c" config-ref="HTTP_Listener_config" path="/trigger"/>
+		<logger level="INFO" doc:name="Logger" doc:id="3d10e300-1ef2-48ba-bae6-2eb5ee514e3d" message="Jenkins is triggered"/>
+		<ee:transform doc:name="Transform Message" doc:id="c371e77c-e140-40f9-bdd0-d07bf7b0e818" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Hello": "Jenkins is triggered"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

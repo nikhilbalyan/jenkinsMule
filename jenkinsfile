@@ -17,6 +17,7 @@ node {
     }
     stage('Test') {
         echo 'Testing....'
+	echo (pwd())
     }
     stage('Deploy') {
         echo 'Deploying....'
